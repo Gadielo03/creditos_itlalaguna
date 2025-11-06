@@ -78,7 +78,7 @@ const Login = () => {
                         filter: 'brightness(0.5) contrast(1.1)',
                     }}
                 />
-                <Card>
+                <Card sx={{ borderRadius: 5, boxShadow: 6 }}>
                     <CardContent sx={{ p: 6 }}>
                         <form id="login-form" onSubmit={handleSubmit}>
                             <Stack spacing={2} textAlign="center" sx={{ mb: 2 }}>
