@@ -3,32 +3,22 @@ import {
     Box,
     Button,
     Container,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
     Typography,
-    IconButton,
     TextField,
-    CircularProgress,
     Alert,
     Snackbar,
-    Tooltip,
     InputAdornment,
 } from '@mui/material';
 import {
     Add as AddIcon,
-    Edit as EditIcon,
-    Delete as DeleteIcon,
     Search as SearchIcon,
 } from '@mui/icons-material';
+import type { GridColDef } from '@mui/x-data-grid';
 import AlumnosService from '../../services/alumnosService';
 import type { Alumno, CreateAlumnoDto } from '../../types/alumno';
 import AlumnoFormDialog from '../../components/dialogs/AlumnoFormDialog';
 import DeleteAlumnoDialog from '../../components/dialogs/DeleteAlumnoDialog';
+import GenericDataGrid from '../../components/dataGrid/GenericDataGrid';
 
 export const Alumnos = () => {
     const [alumnos, setAlumnos] = useState<Alumno[]>([]);
@@ -44,6 +34,32 @@ export const Alumnos = () => {
         message: string;
         severity: 'success' | 'error' | 'info';
     }>({ open: false, message: '', severity: 'success' });
+
+    const columns: GridColDef[] = [
+        {
+            field: 'id',
+            headerName: 'ID',
+            width: 90,
+        },
+        {
+            field: 'nctrl',
+            headerName: 'No. Control',
+            width: 150,
+            flex: 1,
+        },
+        {
+            field: 'nombres',
+            headerName: 'Nombres',
+            width: 200,
+            flex: 1,
+        },
+        {
+            field: 'apellidos',
+            headerName: 'Apellidos',
+            width: 200,
+            flex: 1,
+        },
+    ];
 
     useEffect(() => {
         loadAlumnos();
@@ -171,63 +187,19 @@ export const Alumnos = () => {
                 </Button>
             </Box>
 
-            {loading ? (
-                <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
-                    <CircularProgress />
-                </Box>
-            ) : filteredAlumnos.length === 0 ? (
-                <Paper sx={{ p: 4, textAlign: 'center' }}>
-                    <Typography variant="body1" color="text.secondary">
-                        {searchQuery
-                            ? 'No se encontraron alumnos que coincidan con la búsqueda'
-                            : 'No hay alumnos registrados. Crea uno nuevo para comenzar.'}
-                    </Typography>
-                </Paper>
-            ) : (
-                <TableContainer component={Paper}>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell><strong>ID</strong></TableCell>
-                                <TableCell><strong>No. Control</strong></TableCell>
-                                <TableCell><strong>Nombres</strong></TableCell>
-                                <TableCell><strong>Apellidos</strong></TableCell>
-                                <TableCell align="right"><strong>Acciones</strong></TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {filteredAlumnos.map((alumno) => (
-                                <TableRow key={alumno.id} hover>
-                                    <TableCell>{alumno.id}</TableCell>
-                                    <TableCell>{alumno.nctrl}</TableCell>
-                                    <TableCell>{alumno.nombres}</TableCell>
-                                    <TableCell>{alumno.apellidos}</TableCell>
-                                    <TableCell align="right">
-                                        <Tooltip title="Editar">
-                                            <IconButton
-                                                size="small"
-                                                color="primary"
-                                                onClick={() => handleOpenDialog(alumno)}
-                                            >
-                                                <EditIcon />
-                                            </IconButton>
-                                        </Tooltip>
-                                        <Tooltip title="Eliminar">
-                                            <IconButton
-                                                size="small"
-                                                color="error"
-                                                onClick={() => handleOpenDeleteDialog(alumno)}
-                                            >
-                                                <DeleteIcon />
-                                            </IconButton>
-                                        </Tooltip>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            )}
+            <GenericDataGrid
+                rows={filteredAlumnos}
+                columns={columns}
+                loading={loading}
+                onEdit={handleOpenDialog}
+                onDelete={handleOpenDeleteDialog}
+                emptyMessage={
+                    searchQuery
+                        ? 'No se encontraron alumnos que coincidan con la búsqueda'
+                        : 'No hay alumnos registrados. Crea uno nuevo para comenzar.'
+                }
+                pageSize={10}
+            />
 
             <AlumnoFormDialog
                 open={openDialog}

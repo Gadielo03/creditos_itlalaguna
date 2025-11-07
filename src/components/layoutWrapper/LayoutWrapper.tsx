@@ -10,8 +10,13 @@ interface LayoutWrapperProps {
 
 const LayoutWrapper = ({ children }: LayoutWrapperProps) => {
   const location = useLocation();
-  const pagesWithoutHeader = ["/login","/unauthorized"];
-  const isLoginPage = pagesWithoutHeader.find(page => page === location.pathname);
+  const pagesWithoutHeader = ["/login", "/unauthorized"];
+  const validProtectedRoutes = ["/", "/creditos", "/actividades", "/alumnos", "/docentes", "/usuarios"];
+  
+  const isPageWithoutHeader = pagesWithoutHeader.includes(location.pathname);
+  const isValidRoute = validProtectedRoutes.includes(location.pathname);
+  const showHeader = !isPageWithoutHeader && isValidRoute;
+  
   return (
     <Box
       sx={{
@@ -24,11 +29,11 @@ const LayoutWrapper = ({ children }: LayoutWrapperProps) => {
         flexDirection: 'column',
       }}
     > 
-      {!isLoginPage && <Header />}
+      {showHeader && <Header />}
       <Box sx={{ flex: 1 }}>
         {children}
       </Box>
-      {!isLoginPage && <Footer />}
+      {showHeader && <Footer />}
     </Box>
   );
 };
