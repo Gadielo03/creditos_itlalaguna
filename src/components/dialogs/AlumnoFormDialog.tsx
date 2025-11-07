@@ -12,7 +12,6 @@ import {
     IconButton,
     CircularProgress,
     InputAdornment,
-    Paper,
     alpha,
 } from '@mui/material';
 import {
