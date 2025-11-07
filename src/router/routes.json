@@ -17,17 +17,17 @@
         {
             "path": "/creditos",
             "title": "Créditos",
-            "allowedRoles": ["ADMINISTRADOR", "COORDINADOR", "DOCENTE"]
+            "allowedRoles": ["ADMINISTRADOR", "DOCENTE"]
         },
         {
             "path": "/actividades",
             "title": "Actividades",
-            "allowedRoles": ["ADMINISTRADOR", "COORDINADOR", "DOCENTE"]
+            "allowedRoles": ["ADMINISTRADOR", "DOCENTE"]
         },
         {
             "path": "/alumnos",
             "title": "Alumnos",
-            "allowedRoles": ["ADMINISTRADOR", "COORDINADOR"]
+            "allowedRoles": ["ADMINISTRADOR"]
         },
         {
             "path": "/docentes",
