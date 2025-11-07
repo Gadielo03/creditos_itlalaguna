@@ -1,0 +1,48 @@
+{
+    "routes": [
+        {
+            "path": "/login",
+            "title": "Login",
+            "isPublic": true
+        },
+        {
+            "path": "/unauthorized",
+            "title": "No autorizado",
+            "isPublic": true
+        },
+        {
+            "path": "/",
+            "title": "Inicio"
+        },
+        {
+            "path": "/creditos",
+            "title": "Créditos",
+            "allowedRoles": ["ADMINISTRADOR", "COORDINADOR", "DOCENTE"]
+        },
+        {
+            "path": "/actividades",
+            "title": "Actividades",
+            "allowedRoles": ["ADMINISTRADOR", "COORDINADOR", "DOCENTE"]
+        },
+        {
+            "path": "/alumnos",
+            "title": "Alumnos",
+            "allowedRoles": ["ADMINISTRADOR", "COORDINADOR"]
+        },
+        {
+            "path": "/docentes",
+            "title": "Docentes",
+            "allowedRoles": ["ADMINISTRADOR"]
+        },
+        {
+            "path": "/usuarios",
+            "title": "Usuarios",
+            "allowedRoles": ["ADMINISTRADOR"]
+        },
+        {
+            "path": "*",
+            "title": "No encontrado",
+            "isPublic": true
+        }
+    ]
+}

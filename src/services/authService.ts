@@ -7,7 +7,7 @@ export type LoginResponse = {
     message?: string
 }
 
-class AuthService {
+export class AuthService {
     private static TOKEN_KEY = 'auth_token';
     private static USER_KEY = 'user_data';
 
@@ -43,6 +43,16 @@ class AuthService {
         localStorage.removeItem(this.TOKEN_KEY);
         localStorage.removeItem(this.USER_KEY);
         window.location.href = '/login';
+    }
+
+    static hasRole(role: string | string[]): boolean {
+        const user = this.getUser();
+        if (!user || !user.roles) return false;
+
+        if (Array.isArray(role)) {
+            return role.some(r => user.roles.includes(r));
+        }
+        return user.roles.includes(role);
     }
 
     static isTokenExpired(): boolean {
