@@ -1,3 +1,4 @@
+import React from 'react';
 import {
     AppBar,
     Toolbar,
@@ -7,6 +8,10 @@ import {
     Container,
     Avatar,
     useTheme,
+    Menu,
+    MenuItem,
+    ListItemIcon,
+    IconButton,
 } from '@mui/material';
 import type { SvgIconProps } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +20,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import PeopleIcon from '@mui/icons-material/People';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import AssessmentIcon from '@mui/icons-material/Assessment';
-import SettingsIcon from '@mui/icons-material/Settings';
+import LogoutIcon from '@mui/icons-material/Logout';
 import AuthService from '../../services/authService';
 
 interface NavItem {
@@ -50,12 +55,6 @@ const navigationItems: NavItem[] = [
         allowedRoles: ['ADMINISTRADOR']
     },
     {
-        label: 'Configuración',
-        path: '/configuracion',
-        icon: SettingsIcon,
-        allowedRoles: ['ADMINISTRADOR']
-    },
-    {
         label: 'Docentes',
         path: '/docentes',
         icon: PeopleIcon,
@@ -72,6 +71,19 @@ const navigationItems: NavItem[] = [
 export const Header = () => {
     const theme = useTheme();
     const navigate = useNavigate();
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+
+    const handleAvatarClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => setAnchorEl(null);
+
+    const handleLogout = () => {
+        handleClose();
+        AuthService.logout();
+    };
 
     return (
         <AppBar position="sticky" color="default" elevation={1}>
@@ -129,13 +141,40 @@ export const Header = () => {
                                 {AuthService.getUser()?.roles?.[0] || 'Sin rol'}
                             </Typography>
                         </Box>
-                        <Avatar
-                            sx={{
-                                bgcolor: theme.palette.primary.main + '1A',
-                                color: theme.palette.primary.main
-                            }}
+                        <IconButton
+                            onClick={handleAvatarClick}
+                            size="small"
+                            aria-controls={open ? 'account-menu' : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open ? 'true' : undefined}
                         >
-                            {AuthService.getUser()?.nombre?.[0]?.toUpperCase() || 'U'}</Avatar>
+                            <Avatar
+                                sx={{
+                                    bgcolor: theme.palette.primary.main + '1A',
+                                    color: theme.palette.primary.main,
+                                    width: 36,
+                                    height: 36,
+                                }}
+                            >
+                                {AuthService.getUser()?.nombre?.[0]?.toUpperCase() || 'U'}
+                            </Avatar>
+                        </IconButton>
+                        <Menu
+                            anchorEl={anchorEl}
+                            id="account-menu"
+                            open={open}
+                            onClose={handleClose}
+                            onClick={handleClose}
+                            transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                        >
+                            <MenuItem onClick={handleLogout}>
+                                <ListItemIcon>
+                                    <LogoutIcon fontSize="small" />
+                                </ListItemIcon>
+                                Cerrar sesión
+                            </MenuItem>
+                        </Menu>
                     </Box>
                 </Toolbar>
             </Container>
