@@ -48,7 +48,6 @@ export const Docentes = () => {
             setLoading(true);
             const data = await DocentesService.getAll();
             setDocentes(data);
-            console.log("Docentes loaded:", data);
         } catch (error) {
             console.error("Error loading docentes:", error);
         } finally {
