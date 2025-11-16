@@ -1,39 +1,11 @@
 import { Route, Routes, Outlet } from "react-router-dom";
-import { 
-    Login, 
-    Unauthorized,
-    Home,
-    Creditos,
-    Actividades,
-    Alumnos,
-    Docentes,
-    Usuarios,
-    NotFound
-} from '../pages';
 import ProtectedLayout from "../layouts/ProtectedLayout";
 import RoleProtectedRoute from "../components/roleProtectedRoute/RoleProtectedRoute";
-import routesConfig from './routes.json';
-
-const pageComponents: { [key: string]: React.ComponentType } = {
-    '/login': Login,
-    '/unauthorized': Unauthorized,
-    '/': Home,
-    '/creditos': Creditos,
-    '/actividades': Actividades,
-    '/alumnos': Alumnos,
-    '/usuarios': Usuarios,
-    '/docentes': Docentes,
-    '*': NotFound
-};
+import { getPublicRoutes, getProtectedRoutes, type RouteConfig } from './routesConfig';
 
 const Router = () => {
-    const renderRoute = (route: any) => {
-        const Component = pageComponents[route.path];
-        
-        if (!Component) {
-            console.warn(`No component found for path: ${route.path}`);
-            return null;
-        }
+    const renderRoute = (route: RouteConfig) => {
+        const Component = route.component;
 
         if (route.isPublic) {
             return <Route key={route.path} path={route.path} element={<Component />} />;
@@ -56,8 +28,8 @@ const Router = () => {
         );
     };
 
-    const publicRoutes = routesConfig.routes.filter(route => route.isPublic);
-    const protectedRoutes = routesConfig.routes.filter(route => !route.isPublic);
+    const publicRoutes = getPublicRoutes();
+    const protectedRoutes = getProtectedRoutes();
 
     return (
         <Routes>
