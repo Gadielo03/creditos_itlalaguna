@@ -5,7 +5,6 @@ import PeopleIcon from '@mui/icons-material/People';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import SchoolIcon from '@mui/icons-material/School';
 import PersonIcon from '@mui/icons-material/Person';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 import { 
     Login, 
@@ -96,9 +95,9 @@ export const routesConfig: RouteConfig[] = [
         path: '/periodos',
         title: 'Periodos',
         component: Periodos,
-        icon: CalendarMonthIcon,
-        allowedRoles: ['ADMINISTRADOR'],
+        icon: HomeIcon,
         showInNav: true,
+        allowedRoles: ['ADMINISTRADOR'],
     },
     {
         path: '*',
@@ -106,7 +105,7 @@ export const routesConfig: RouteConfig[] = [
         component: NotFound,
         isPublic: true,
         showInNav: false,
-    }
+    },
 ];
 
 export const getPublicRoutes = () => routesConfig.filter(route => route.isPublic);
