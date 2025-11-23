@@ -13,60 +13,11 @@ import {
     ListItemIcon,
     IconButton,
 } from '@mui/material';
-import type { SvgIconProps } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import SchoolIcon from '@mui/icons-material/School';
-import HomeIcon from '@mui/icons-material/Home';
-import PeopleIcon from '@mui/icons-material/People';
-import EventNoteIcon from '@mui/icons-material/EventNote';
-import AssessmentIcon from '@mui/icons-material/Assessment';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AuthService from '../../services/authService';
-
-interface NavItem {
-    label: string;
-    path: string;
-    icon: React.ComponentType<SvgIconProps>;
-    allowedRoles?: string[];
-}
-
-const navigationItems: NavItem[] = [
-    {
-        label: 'Inicio',
-        path: '/',
-        icon: HomeIcon,
-    },
-    {
-        label: 'Créditos',
-        path: '/creditos',
-        icon: PeopleIcon,
-        allowedRoles: ['ADMINISTRADOR', 'DOCENTE']
-    },
-    {
-        label: 'Actividades',
-        path: '/actividades',
-        icon: EventNoteIcon,
-        allowedRoles: ['ADMINISTRADOR', 'DOCENTE']
-    },
-    {
-        label: 'Alumnos',
-        path: '/alumnos',
-        icon: AssessmentIcon,
-        allowedRoles: ['ADMINISTRADOR']
-    },
-    {
-        label: 'Docentes',
-        path: '/docentes',
-        icon: PeopleIcon,
-        allowedRoles: ['ADMINISTRADOR']
-    },
-    {
-        label: 'Usuarios',
-        path: '/usuarios',
-        icon: PeopleIcon,
-        allowedRoles: ['ADMINISTRADOR']
-    }
-];
+import { getNavigationRoutes } from '../../router/routesConfig';
 
 export const Header = () => {
     const theme = useTheme();
@@ -114,22 +65,22 @@ export const Header = () => {
                     </Box>
 
                     <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', gap: 1 }}>
-                        {navigationItems
-                            .filter(item => {
-                                if (!item.allowedRoles) return true;
-                                return AuthService.hasRole(item.allowedRoles);
+                        {getNavigationRoutes()
+                            .filter(route => {
+                                if (!route.allowedRoles) return true;
+                                return AuthService.hasRole(route.allowedRoles);
                             })
-                            .map((item) => {
-                                const Icon = item.icon;
+                            .map((route) => {
+                                const Icon = route.icon;
                                 return (
                                     <Button
-                                        key={item.path}
-                                        startIcon={<Icon sx={{ fontSize: 20 }} />}
-                                        onClick={() => navigate(item.path)}
+                                        key={route.path}
+                                        startIcon={Icon && <Icon sx={{ fontSize: 20 }} />}
+                                        onClick={() => navigate(route.path)}
                                         color="inherit"
                                         sx={{ borderRadius: 2 }}
                                     >
-                                        {item.label}
+                                        {route.title}
                                     </Button>
                                 );
                             })}

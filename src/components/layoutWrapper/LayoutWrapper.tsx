@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { Header } from '../header/Header';
 import { useLocation } from 'react-router-dom';
 import Footer from '../footer/Footer';
+import { getProtectedRoutes } from '../../router/routesConfig';
 
 interface LayoutWrapperProps {
   children: ReactNode;
@@ -10,12 +11,11 @@ interface LayoutWrapperProps {
 
 const LayoutWrapper = ({ children }: LayoutWrapperProps) => {
   const location = useLocation();
-  const pagesWithoutHeader = ["/login", "/unauthorized"];
-  const validProtectedRoutes = ["/", "/creditos", "/actividades", "/alumnos", "/docentes", "/usuarios"];
   
-  const isPageWithoutHeader = pagesWithoutHeader.includes(location.pathname);
-  const isValidRoute = validProtectedRoutes.includes(location.pathname);
-  const showHeader = !isPageWithoutHeader && isValidRoute;
+  const protectedRoutePaths = getProtectedRoutes().map(route => route.path);
+  
+  const isProtectedRoute = protectedRoutePaths.includes(location.pathname);
+  const showHeader = isProtectedRoute;
   
   return (
     <Box
