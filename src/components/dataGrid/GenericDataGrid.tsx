@@ -1,9 +1,9 @@
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
-import type { GridColDef, GridRowParams } from '@mui/x-data-grid';
+import type { GridColDef, GridRowParams, GridRowIdGetter, GridValidRowModel } from '@mui/x-data-grid';
 import { Box, Paper, CircularProgress, Typography } from '@mui/material';
 import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
 
-interface GenericDataGridProps<T extends { id: number | string }> {
+interface GenericDataGridProps<T extends GridValidRowModel> {
     rows: T[];
     columns: GridColDef[];
     loading?: boolean;
@@ -13,9 +13,10 @@ interface GenericDataGridProps<T extends { id: number | string }> {
     emptyMessage?: string;
     pageSize?: number;
     autoHeight?: boolean;
+    getRowId?: GridRowIdGetter<T>;
 }
 
-export function GenericDataGrid<T extends { id: number | string }>({
+export function GenericDataGrid<T extends GridValidRowModel>({
     rows,
     columns,
     loading = false,
@@ -25,6 +26,7 @@ export function GenericDataGrid<T extends { id: number | string }>({
     emptyMessage = 'No hay datos disponibles',
     pageSize = 10,
     autoHeight = true,
+    getRowId,
 }: GenericDataGridProps<T>) {
     const actionsColumn: GridColDef = {
         field: 'actions',
@@ -86,6 +88,7 @@ export function GenericDataGrid<T extends { id: number | string }>({
             <DataGrid
                 rows={rows}
                 columns={finalColumns}
+                getRowId={getRowId}
                 initialState={{
                     pagination: {
                         paginationModel: { pageSize: pageSize, page: 0 },
