@@ -112,6 +112,12 @@ export const Alumnos = () => {
     };
 
     const handleSubmitAlumno = async (alumnoData: CreateAlumnoDto) => {
+        const nctrlLength = alumnoData.nctrl.trim().length;
+        if (nctrlLength !== 8 && nctrlLength !== 9) {
+            showSnackbar('Número de control inválido. Debe tener 8 o 9 caracteres', 'error');
+            throw new Error('Número de control inválido');
+        }
+
         try {
             if (editingAlumno) {
                 await AlumnosService.update(editingAlumno.id, alumnoData);

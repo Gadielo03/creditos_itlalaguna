@@ -1,11 +1,17 @@
 import api from './api';
 import type { Alumno, CreateAlumnoDto, UpdateAlumnoDto } from '../types/alumno';
+import type { AlumnoCreditosReport } from '../types/credito';
 
 export class AlumnosService {
     private static BASE_URL = '/api/alumno';
 
     static async getAll(): Promise<Alumno[]> {
         const response = await api.get(`${this.BASE_URL}/all`);
+        return response.data;
+    }
+
+    static async getAlumnosCreditosReport(): Promise<AlumnoCreditosReport[]> {
+        const response = await api.get<AlumnoCreditosReport[]>(`${this.BASE_URL}/creditos-report`);
         return response.data;
     }
 
