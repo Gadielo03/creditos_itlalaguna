@@ -27,3 +27,13 @@ export interface UpdateCreditoDto {
     act_id?: number;
     cred_fecha?: string;
 }
+
+export type AlumnoCreditosReport = {
+    alumno: Alumno;
+    totalCreditos: number;
+    creditos: {
+        docente: string;
+        actividad: string;
+        fecha: string;
+    }[];
+}

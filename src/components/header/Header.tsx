@@ -13,7 +13,7 @@ import {
     ListItemIcon,
     IconButton,
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import SchoolIcon from '@mui/icons-material/School';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AuthService from '../../services/authService';
@@ -22,6 +22,7 @@ import { getNavigationRoutes } from '../../router/routesConfig';
 export const Header = () => {
     const theme = useTheme();
     const navigate = useNavigate();
+    const location = useLocation();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 
@@ -72,13 +73,24 @@ export const Header = () => {
                             })
                             .map((route) => {
                                 const Icon = route.icon;
+                                const isActive = location.pathname === route.path;
                                 return (
                                     <Button
                                         key={route.path}
                                         startIcon={Icon && <Icon sx={{ fontSize: 20 }} />}
                                         onClick={() => navigate(route.path)}
                                         color="inherit"
-                                        sx={{ borderRadius: 2 }}
+                                        sx={{
+                                            borderRadius: 2,
+                                            bgcolor: isActive ? theme.palette.primary.main + '15' : 'transparent',
+                                            color: isActive ? theme.palette.primary.main : 'inherit',
+                                            fontWeight: isActive ? 600 : 400,
+                                            '&:hover': {
+                                                bgcolor: isActive 
+                                                    ? theme.palette.primary.main + '25' 
+                                                    : theme.palette.action.hover,
+                                            },
+                                        }}
                                     >
                                         {route.title}
                                     </Button>
