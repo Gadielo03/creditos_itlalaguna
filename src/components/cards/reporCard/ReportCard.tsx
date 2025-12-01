@@ -1,5 +1,5 @@
 import { Card, CardContent, Box, Typography, CircularProgress } from "@mui/material";
-import type { AlumnoCreditosReport } from "../../../types/credito";
+import type { AlumnoCreditosReport } from "../../../types/alumno";
 
 interface ReportCardProps {
     report: AlumnoCreditosReport;

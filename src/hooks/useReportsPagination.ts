@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import type { AlumnoCreditosReport } from "../types/credito";
+import type { AlumnoCreditosReport } from "../types/alumno";
 
 interface UseReportsPaginationProps {
     reports: AlumnoCreditosReport[];
