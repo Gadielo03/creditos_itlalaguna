@@ -15,7 +15,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import BadgeIcon from "@mui/icons-material/Badge";
 import EventIcon from "@mui/icons-material/Event";
 import SchoolIcon from "@mui/icons-material/School";
-import type { AlumnoCreditosReport } from "../../types/credito";
+import type { AlumnoCreditosReport } from "../../types/alumno";
 
 interface AlumnoReportDialogProps {
     open: boolean;
@@ -185,12 +185,24 @@ export const AlumnoReportDialog = ({ open, onClose, report }: AlumnoReportDialog
                                                     <strong>Docente:</strong> {credito.docente}
                                                 </Typography>
                                             </Box>
-                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                                                <EventIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
-                                                <Typography variant="body2" color="text.secondary" fontWeight={500}>
-                                                    {formatDate(credito.fecha)}
-                                                </Typography>
+                                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 1 }}>
+                                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                                                    <Typography variant="body2" color="text.secondary">
+                                                        <strong>Fecha:</strong>
+                                                    </Typography>
+                                                    <EventIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
+                                                    <Typography variant="body2" color="text.secondary" fontWeight={500}>
+                                                        {formatDate(credito.fecha)}
+                                                    </Typography>
+                                                </Box>
+                                                <Chip
+                                                    label={`${credito.creditos} ${credito.creditos === 1 ? 'crédito' : 'créditos'}`}
+                                                    color="primary"
+                                                    size="small"
+                                                    sx={{ fontWeight: 600 }}
+                                                />
                                             </Box>
+                                            
                                         </Box>
                                     </Box>
                                 ))}

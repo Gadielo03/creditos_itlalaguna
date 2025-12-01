@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import AlumnosService from "../../services/alumnosService";
-import type { AlumnoCreditosReport } from "../../types/credito";
+import type { AlumnoCreditosReport } from "../../types/alumno";
 import { TablePagination, Paper, Box, Typography, Container, TextField, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useReportsPagination } from "../../hooks/useReportsPagination";

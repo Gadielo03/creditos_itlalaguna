@@ -12,3 +12,14 @@ export interface CreateAlumnoDto {
 }
 
 export interface UpdateAlumnoDto extends Partial<CreateAlumnoDto> {}
+
+export type AlumnoCreditosReport = {
+    alumno: Alumno;
+    totalCreditos: number;
+    creditos: {
+        docente: string;
+        actividad: string;
+        fecha: string;
+        creditos: number;
+    }[];
+}
